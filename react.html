@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>People of Gaul</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+  </head>
+  <body>
+    <div class="container">
+      <button v-on:click="upvotes++">
+        Upvote! {{upvotes}}
+      </button>
+      <pre>{{ $data | json }}</pre>
+    </div>
+  </body>
+  <script src="node_modules/vue/dist/vue.js"></script>
+  <script type="text/javascript">
+    Vue.filter('oldPeople', function(collection){
+      return collection.filter(function(item){
+        return item.age > 50
+      })
+    })
+    new Vue({
+      el: 'body',
+      data: {
+        upvotes: 0,
+      },
+    })
+  </script>
+</html>
