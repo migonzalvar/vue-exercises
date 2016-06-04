@@ -3,9 +3,10 @@
   <head>
     <meta charset="utf-8">
     <title>Greetings friend</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
   </head>
   <body>
-    <div id="app">
+    <div class="container">
       <h1 v-if="gender != 'male' && gender != 'female'">So you cant't decide. Fine!</h1>
       <h1 v-if="gender == 'male'">Hello, Mr {{ name }}</h1>
       <h1 v-if="gender == 'female'">Hello, Miss {{ name }}</h1>
@@ -19,7 +20,7 @@
   <script src="node_modules/vue/dist/vue.js"></script>
   <script type="text/javascript">
     new Vue({
-      el: '#app',
+      el: '.container',
       data: {
         gender: '',
         name: '',
