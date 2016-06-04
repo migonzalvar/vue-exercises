@@ -7,6 +7,8 @@
   </head>
   <body>
     <div class="container">
+      <ul class="list-group"> <li v-for="i in 11" class="list-group-item"> {{ i }}
+  times 4 equals {{ i * 4 }}. </li> </ul>
       <h1 v-if="gender != 'male' && gender != 'female'">So you cant't decide. Fine!</h1>
       <h1 v-if="gender == 'male'">Hello, Mr {{ name }}</h1>
       <h1 v-if="gender == 'female'">Hello, Miss {{ name }}</h1>
@@ -20,7 +22,7 @@
   <script src="node_modules/vue/dist/vue.js"></script>
   <script type="text/javascript">
     new Vue({
-      el: '.container',
+      el: 'body',
       data: {
         gender: '',
         name: '',
