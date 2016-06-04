@@ -7,24 +7,36 @@
   </head>
   <body>
     <div class="container">
-      <button v-on:click="upvotes++">
-        Upvote! {{upvotes}}
-      </button>
+      <h1>People of Gaul</h1>
+      <ul class="list-group">
+        <li v-for="candidate in candidates" class="list-group-item">
+          {{ candidate.name }} {{ candidate.votes }} <button @click="candidate.votes++">Vote!</button>
+        </li>
+      </ul>
+      <h1 v-show="mayor">Our mayor is {{ mayor.name }}!</h1>
       <pre>{{ $data | json }}</pre>
     </div>
   </body>
   <script src="node_modules/vue/dist/vue.js"></script>
   <script type="text/javascript">
-    Vue.filter('oldPeople', function(collection){
-      return collection.filter(function(item){
-        return item.age > 50
-      })
-    })
     new Vue({
       el: 'body',
       data: {
-        upvotes: 0,
+        candidates: [
+          {name: 'Obelix', votes: 0},
+          {name: 'Asterix', votes: 0},
+          {name: 'Julius Caesar', votes: 0},
+          {name: 'Majestix', votes: 0},
+        ],
       },
+      computed: {
+        mayor: function(){
+          sorted = this.candidates.sort(function(a, b){
+            return b.votes - a.votes
+          })
+          return sorted[0]
+        }
+      }
     })
   </script>
 </html>
