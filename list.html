@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>People of Gaul</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+  </head>
+  <body>
+    <div class="container">
+      <h1>People of Gaul</h1>
+      <ul class="list-group">
+        <li v-for="person in people" class="list-group-item">
+          {{ person.name }} is {{ person.age }}
+        </li>
+      </ul>
+      <h1>Old people of Gaul</h1>
+      <ul class="list-group">
+        <li v-for="person in people | orderBy 'age' -1 | oldPeople" class="list-group-item">
+          {{ person.name }} is {{ person.age }}
+        </li>
+      </ul>
+      <pre>{{ $data | json }}</pre>
+    </div>
+  </body>
+  <script src="node_modules/vue/dist/vue.js"></script>
+  <script type="text/javascript">
+    Vue.filter('oldPeople', function(collection){
+      return collection.filter(function(item){
+        return item.age > 50
+      })
+    })
+    new Vue({
+      el: 'body',
+      data: {
+        people: [
+          {name: 'Obelix', age: 31},
+          {name: 'Asterix', age: 32},
+          {name: 'Julius Caesar', age: 56},
+          {name: 'Majestix', age: 62},
+        ],
+      },
+    })
+  </script>
+</html>
