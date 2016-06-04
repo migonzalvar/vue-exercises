@@ -6,10 +6,12 @@
   </head>
   <body>
     <div id="app">
-      <h1>Hello {{ name }}</h1>
-      <p>
-        Enter your name:
-      </p>
+      <h1 v-if="gender != 'male' && gender != 'female'">So you cant't decide. Fine!</h1>
+      <h1 v-if="gender == 'male'">Hello, Mr {{ name }}</h1>
+      <h1 v-if="gender == 'female'">Hello, Miss {{ name }}</h1>
+      <p>Enter your gender:</p>
+      <input type="input" name="gender" value="" v-model="gender">
+      <p>Enter your name:</p>
       <input type="input" name="name" value="" v-model="name">
       <pre>{{ $data | json }}</pre>
     </div>
@@ -18,7 +20,10 @@
   <script type="text/javascript">
     new Vue({
       el: '#app',
-      data: {name: ''},
+      data: {
+        gender: '',
+        name: '',
+      },
     })
   </script>
 </html>
