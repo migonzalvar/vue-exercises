@@ -17,8 +17,11 @@
   <template id="chariot-template">
     <li class="list-group-item">
       <p>"{{ chariot.name }}" chariot has <b>{{ chariot.horses }}</b> horse(s)!</p>
-      <button v-show="!anySelected" type="button" class="btn btn-primary" @click="pick">Pick a chariot</button>
-      <button v-show="anySelected & thisSelected" type="button" class="btn btn-primary" disabled="true">Riding!</button>
+      <button type="button" class="btn btn-primary" @click="click" disabled="{{ thisSelected }}">
+        <span v-show="!anySelected">Pick a chariot</span>
+        <span v-show="anySelected & thisSelected">Riding!</span>
+        <span v-show="anySelected & !thisSelected">{{ notSelectedMessage }}</span>
+      </button>
     </li>
   </template>
   <script src="node_modules/vue/dist/vue.js"></script>
@@ -27,8 +30,10 @@
       template: '#chariot-template',
       props: ['chariot', 'selected-chariot'],
       methods: {
-        pick: function(){
-          this.selectedChariot = this.chariot
+        click: function(){
+          if (!this.anySelected) {
+            this.selectedChariot = this.chariot
+          }
         },
       },
       computed: {
@@ -38,17 +43,23 @@
         thisSelected: function(){
           return this.selectedChariot == this.chariot
         },
+        notSelectedMessage: function(){
+          if (this.selectedChariot) {
+            return this.chariot.horses > this.selectedChariot.horses ? 'Hire Horses' : 'Dismiss Horses'
+          }
+        }
       },
     })
-    new Vue({
+
+    vm = new Vue({
       el: 'body',
       data:{
         selectedChariot: null,
         chariots: [
-          {name: 'Olympus', horses: 0},
-          {name: 'Sagitta', horses: 0},
-          {name: 'Icarus', horses: 0},
-          {name: 'Abraxas', horses: 0},
+          {name: 'Olympus', horses: 4},
+          {name: 'Sagitta', horses: 3},
+          {name: 'Icarus', horses: 2},
+          {name: 'Abraxas', horses: 1},
         ],
       },
     })
