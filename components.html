@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Horse-drown Chariots</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+  </head>
+  <body>
+    <div class="container">
+      <h1>Chariot shooping</h1>
+      <ul class="list-group">
+        <chariot v-for="chariot in chariots" :chariot="chariot" :selected-chariot.sync="selectedChariot"></chariot>
+      </ul>
+      <pre>{{ $data | json }}</pre>
+    </div>
+  </body>
+  <template id="chariot-template">
+    <li class="list-group-item">
+      <p>"{{ chariot.name }}" chariot has <b>{{ chariot.horses }}</b> horse(s)!</p>
+      <button v-show="!anySelected" type="button" class="btn btn-primary" @click="pick">Pick a chariot</button>
+      <button v-show="anySelected & thisSelected" type="button" class="btn btn-primary" disabled="true">Riding!</button>
+    </li>
+  </template>
+  <script src="node_modules/vue/dist/vue.js"></script>
+  <script type="text/javascript">
+    Vue.component('chariot', {
+      template: '#chariot-template',
+      props: ['chariot', 'selected-chariot'],
+      methods: {
+        pick: function(){
+          this.selectedChariot = this.chariot
+        },
+      },
+      computed: {
+        anySelected: function(){
+          return this.selectedChariot !== null
+        },
+        thisSelected: function(){
+          return this.selectedChariot == this.chariot
+        },
+      },
+    })
+    new Vue({
+      el: 'body',
+      data:{
+        selectedChariot: null,
+        chariots: [
+          {name: 'Olympus', horses: 0},
+          {name: 'Sagitta', horses: 0},
+          {name: 'Icarus', horses: 0},
+          {name: 'Abraxas', horses: 0},
+        ],
+      },
+    })
+  </script>
+</html>
