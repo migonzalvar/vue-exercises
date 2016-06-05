@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
+  <title>Extraescolares</title>
+</head>
+<body>
+<div class="container">
+    <h1>Actividades Extraescolares</h1>
+    <filter v-for="filter in filterSet" :filter.sync="filter"></filter>
+    <table class="table table-bordered">
+      <thead>
+        <tr>
+          <th>Actividade</th>
+          <th>Grupo</th>
+          <th>Días</th>
+          <th>Horario</th>
+          <th>EI</th>
+          <th>EP</th>
+          <th>ESO</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr is="activity-row" v-for="activity in filteredActivities" :activity="activity"></activity-row>
+      </tbody>
+    </table>
+    <pre>{{ $data | json }}</pre>
+</div>
+</body>
+<script src="http://cdnjs.cloudflare.com/ajax/libs/vue/1.0.17/vue.js"></script>
+
+<script type="text/x-template" id="filter-template">
+  <button
+    class="btn btn-default"
+    type="button"
+    @click="click"
+    v-bind:class="{'active': filter.status}"
+  >{{ label }}</button>
+</script>
+
+<script type="text/x-template" id="row-template">
+  <tr>
+    <td>{{ activity.ACTIVIDADE }}</td>
+    <td>{{ activity.GRUPO }}</td>
+    <td>{{ activity.DIAS }}</td>
+    <td>{{ activity.HORARIO }}</td>
+    <td><span v-show="activity.EI" class="label label-primary">{{ activity.EI }}</span></td>
+    <td><span v-show="activity.EP" class="label label-primary">{{ activity.EP }}</span></td>
+    <td><span v-show="activity.ESO" class="label label-primary">{{ activity.ESO }}</span></td>
+  </tr>
+</script>
+
+<script type="text/javascript">
+  Vue.config.debug = true
+
+  Vue.component('filter', {
+    template: '#filter-template',
+    props: ['filter'],
+    methods: {
+      click: function(){
+        this.filter.status = !this.filter.status
+        event.target.blur()
+      },
+    },
+    computed: {
+      label: function(){
+        return this.filter.name.toUpperCase()
+      },
+    },
+  })
+
+  Vue.component('activity-row', {
+    template: '#row-template',
+    props: ['activity'],
+  })
+
+  var vm = new Vue({
+    el: 'body',
+    data: {
+      filterSet: [
+        {name: 'ei', status: false},
+        {name: 'ep', status: false},
+        {name: 'eso', status: false},
+      ],
+      activities: [
+            {
+                "ACTIVIDADE": "AULA CREATIVA",
+                "GRUPO": "1",
+                "DIAS": "Luns e Mércores",
+                "HORARIO": "17,30 - 18,30",
+                "EI": "EI",
+                "EP": "",
+                "ESO": ""
+            },
+            {
+                "ACTIVIDADE": "BAILE MODERNO",
+                "GRUPO": "1",
+                "DIAS": "Martes e Xoves",
+                "HORARIO": "12,30 - 13,30",
+                "EI": "EI",
+                "EP": "",
+                "ESO": ""
+            },
+            {
+                "ACTIVIDADE": "BAILE MODERNO",
+                "GRUPO": "2",
+                "DIAS": "Luns e Mércores",
+                "HORARIO": "17,30 - 18,30",
+                "EI": "",
+                "EP": "EP",
+                "ESO": "ESO"
+            },
+            {
+                "ACTIVIDADE": "CONVERSA EN INGLÉS",
+                "GRUPO": "1",
+                "DIAS": "Xoves",
+                "HORARIO": "16,00 - 17,00",
+                "EI": "",
+                "EP": "",
+                "ESO": "ESO"
+            },
+            {
+                "ACTIVIDADE": "DEBUXO E PINTURA",
+                "GRUPO": "1",
+                "DIAS": "Luns e Mércores",
+                "HORARIO": "12,30 - 13,30",
+                "EI": "",
+                "EP": "1 - 3",
+                "ESO": ""
+            },
+            {
+                "ACTIVIDADE": "DEBUXO E PINTURA",
+                "GRUPO": "2",
+                "DIAS": "Martes e Xoves",
+                "HORARIO": "12,30 - 13,30",
+                "EI": "",
+                "EP": "4 - 6",
+                "ESO": ""
+            },
+            {
+                "ACTIVIDADE": "DEBUXO E PINTURA",
+                "GRUPO": "3",
+                "DIAS": "Martes e Xoves",
+                "HORARIO": "17,30 - 18,30",
+                "EI": "",
+                "EP": "EP",
+                "ESO": ""
+            },
+            {
+                "ACTIVIDADE": "DIVIRTETE EN INGLÉS",
+                "GRUPO": "1",
+                "DIAS": "Martes e Xoves",
+                "HORARIO": "12,30 - 13,30",
+                "EI": "",
+                "EP": "EP",
+                "ESO": ""
+            },
+            {
+                "ACTIVIDADE": "MÚSICA E MOVEMENTO",
+                "GRUPO": "1",
+                "DIAS": "Martes e Xoves",
+                "HORARIO": "12,30 - 13,30",
+                "EI": "EI",
+                "EP": "1 - 2",
+                "ESO": ""
+            },
+            {
+                "ACTIVIDADE": "MÚSICA E MOVEMENTO",
+                "GRUPO": "2",
+                "DIAS": "Martes e Xoves",
+                "HORARIO": "17,30 - 18,30",
+                "EI": "",
+                "EP": "3 - 6",
+                "ESO": ""
+            },
+            {
+                "ACTIVIDADE": "GUITARRA",
+                "GRUPO": "1",
+                "DIAS": "Venres",
+                "HORARIO": "15,30 - 17,30",
+                "EI": "",
+                "EP": "EP",
+                "ESO": "ESO"
+            },
+            {
+                "ACTIVIDADE": "INICIACIÓN AO DEPORTE",
+                "GRUPO": "1",
+                "DIAS": "Luns e Mércores",
+                "HORARIO": "12,30 - 13,30",
+                "EI": "EI",
+                "EP": "",
+                "ESO": ""
+            },
+            {
+                "ACTIVIDADE": "INICIACIÓN AO DEPORTE",
+                "GRUPO": "2",
+                "DIAS": "Luns e Mércores",
+                "HORARIO": "17,30 - 18,30",
+                "EI": "EI",
+                "EP": "1 - 2",
+                "ESO": ""
+            },
+            {
+                "ACTIVIDADE": "INICIACIÓN AO DEPORTE",
+                "GRUPO": "3",
+                "DIAS": "Martes e Xoves",
+                "HORARIO": "17,30 - 18,30",
+                "EI": "EI",
+                "EP": "",
+                "ESO": ""
+            },
+            {
+                "ACTIVIDADE": "IOGA",
+                "GRUPO": "1",
+                "DIAS": "Martes e Xoves",
+                "HORARIO": "17,30 - 18,30",
+                "EI": "EI",
+                "EP": "1 - 2",
+                "ESO": ""
+            },
+            {
+                "ACTIVIDADE": "IOGA",
+                "GRUPO": "2",
+                "DIAS": "Luns e Mércores",
+                "HORARIO": "12,30 - 13,30",
+                "EI": "",
+                "EP": "EP",
+                "ESO": ""
+            },
+            {
+                "ACTIVIDADE": "KUNG-FÚ DI SOM",
+                "GRUPO": "1",
+                "DIAS": "Martes e Xoves",
+                "HORARIO": "12,30 - 13,30",
+                "EI": "5 - 6",
+                "EP": "1 - 3",
+                "ESO": ""
+            },
+            {
+                "ACTIVIDADE": "KUNG-FÚ DI SOM",
+                "GRUPO": "2",
+                "DIAS": "Martes e Xoves",
+                "HORARIO": "17,30 - 18,30",
+                "EI": "",
+                "EP": "3 - 6",
+                "ESO": "ESO"
+            },
+            {
+                "ACTIVIDADE": "LUDOTECA EN INGLÉS",
+                "GRUPO": "1",
+                "DIAS": "Martes e Xoves",
+                "HORARIO": "12,30 - 13,30",
+                "EI": "EI",
+                "EP": "",
+                "ESO": ""
+            },
+            {
+                "ACTIVIDADE": "LUDOTECA EN INGLÉS",
+                "GRUPO": "2",
+                "DIAS": "Luns e Mércores",
+                "HORARIO": "12,30 - 13,30",
+                "EI": "EI",
+                "EP": "",
+                "ESO": ""
+            },
+            {
+                "ACTIVIDADE": "OBRADOIRO DE COMIC",
+                "GRUPO": "1",
+                "DIAS": "Luns e Mércores",
+                "HORARIO": "17,30 - 18,30",
+                "EI": "",
+                "EP": "EP",
+                "ESO": ""
+            },
+            {
+                "ACTIVIDADE": "PATINAXE ARTÍSTICA",
+                "GRUPO": "1-In.",
+                "DIAS": "Luns e Mércores",
+                "HORARIO": "12,30 - 13,30",
+                "EI": "EI",
+                "EP": "EP",
+                "ESO": ""
+            },
+            {
+                "ACTIVIDADE": "PATINAXE ARTÍSTICA",
+                "GRUPO": "2-Av.",
+                "DIAS": "Luns e Mércores",
+                "HORARIO": "17,30 - 18,30",
+                "EI": "",
+                "EP": "EP",
+                "ESO": ""
+            },
+            {
+                "ACTIVIDADE": "PATINAXE ARTÍSTICA",
+                "GRUPO": "3",
+                "DIAS": "Mércores",
+                "HORARIO": "15,30 - 17,30",
+                "EI": "",
+                "EP": "",
+                "ESO": "ESO"
+            },
+            {
+                "ACTIVIDADE": "ROBÓTICA",
+                "GRUPO": "1",
+                "DIAS": "Luns e Mércores",
+                "HORARIO": "17,30 - 18,30",
+                "EI": "",
+                "EP": "4 - 6",
+                "ESO": "ESO"
+            },
+            {
+                "ACTIVIDADE": "SLACKLINE",
+                "GRUPO": "1",
+                "DIAS": "Martes e Xoves",
+                "HORARIO": "17,30 - 18,30",
+                "EI": "",
+                "EP": "3 - 6",
+                "ESO": ""
+            },
+            {
+                "ACTIVIDADE": "TEATRO",
+                "GRUPO": "1",
+                "DIAS": "Luns e Mércores",
+                "HORARIO": "12,30 - 13,30",
+                "EI": "EI",
+                "EP": "1 - 2",
+                "ESO": ""
+            },
+            {
+                "ACTIVIDADE": "TEATRO",
+                "GRUPO": "2",
+                "DIAS": "Luns e Mércores",
+                "HORARIO": "17,30 - 18,30",
+                "EI": "",
+                "EP": "EP",
+                "ESO": ""
+            },
+            {
+                "ACTIVIDADE": "TEATRO (AULA de)",
+                "GRUPO": "1",
+                "DIAS": "Mércores",
+                "HORARIO": "15,30 - 17,30",
+                "EI": "",
+                "EP": "",
+                "ESO": "ESO"
+            },
+            {
+                "ACTIVIDADE": "VIDEOCREACIÓN",
+                "GRUPO": "1",
+                "DIAS": "Martes",
+                "HORARIO": "15,30 - 17,30",
+                "EI": "",
+                "EP": "",
+                "ESO": "ESO"
+            },
+            {
+                "ACTIVIDADE": "VOLEIBOL",
+                "GRUPO": "1",
+                "DIAS": "Martes e Xoves",
+                "HORARIO": "12,30 - 13,30",
+                "EI": "",
+                "EP": "3 - 6",
+                "ESO": ""
+            },
+            {
+                "ACTIVIDADE": "XADREZ",
+                "GRUPO": "1",
+                "DIAS": "Luns e Mércores",
+                "HORARIO": "12,30 - 13,30",
+                "EI": "EI",
+                "EP": "EP",
+                "ESO": ""
+            },
+            {
+                "ACTIVIDADE": "XADREZ",
+                "GRUPO": "2",
+                "DIAS": "Venres",
+                "HORARIO": "17,30 - 18,30",
+                "EI": "",
+                "EP": "",
+                "ESO": "ESO"
+            },
+        ]
+    },
+    computed: {
+      filteredActivities: function(){
+        filterSet = this.filterSet
+        rv = false
+        return this.activities.filter(function(activity){
+          rv = false
+          filterSet.forEach(function(filter){
+            if (filter.status){
+              condition = activity[filter.name.toUpperCase()]
+              if (condition !== "" ){
+                rv = true
+              }
+            }
+          })
+          return rv
+        })
+      },
+    }
+  })
+</script>
+</html>
