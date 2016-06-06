@@ -8,6 +8,16 @@
 <body>
 <div class="container">
     <h1>Actividades Extraescolares</h1>
+    <p v-show="choices.length == 0">Non se escolleu ningunha actividade.</p>
+    <div v-else>
+      <h2>Actividades:</h2>
+      <ul>
+        <li v-for="activity in choices">
+          {{ activity.ACTIVIDADE }}
+          <button type="button" class="btn btn-warning" @click="unselect(activity)">Desanotarse</button>
+        </li>
+      </ul>
+    </div>
     <filter v-for="filter in filterSet" :filter.sync="filter"></filter>
     <table class="table table-bordered">
       <thead>
@@ -19,13 +29,16 @@
           <th>EI</th>
           <th>EP</th>
           <th>ESO</th>
+          <th></th>
         </tr>
       </thead>
       <tbody>
-        <tr is="activity-row" v-for="activity in filteredActivities" :activity="activity"></activity-row>
+        <tr is="activity-row" v-for="activity in filteredActivities" :activity="activity" :choices.sync="choices"></activity-row>
       </tbody>
     </table>
+
     <pre>{{ $data | json }}</pre>
+
 </div>
 </body>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/1.0.17/vue.js"></script>
@@ -48,6 +61,7 @@
     <td><span v-show="activity.EI" class="label label-primary">{{ activity.EI }}</span></td>
     <td><span v-show="activity.EP" class="label label-primary">{{ activity.EP }}</span></td>
     <td><span v-show="activity.ESO" class="label label-primary">{{ activity.ESO }}</span></td>
+    <td><button class="btn" v-if="!isChosen(activity)" @click="choice(activity)">Anotarse</button></td>
   </tr>
 </script>
 
@@ -72,17 +86,26 @@
 
   Vue.component('activity-row', {
     template: '#row-template',
-    props: ['activity'],
+    props: ['activity', 'choices'],
+    methods: {
+      isChosen: function(activity){
+        return this.choices.indexOf(activity) >= 0
+      },
+      choice: function(activity){
+        this.choices.push(activity)
+      }
+    },
   })
 
   var vm = new Vue({
     el: 'body',
     data: {
       filterSet: [
-        {name: 'ei', status: false},
-        {name: 'ep', status: false},
-        {name: 'eso', status: false},
+        {name: 'ei', status: true},
+        {name: 'ep', status: true},
+        {name: 'eso', status: true},
       ],
+      choices: [],
       activities: [
             {
                 "ACTIVIDADE": "AULA CREATIVA",
@@ -400,7 +423,12 @@
           return rv
         })
       },
-    }
+    },
+    methods: {
+      unselect: function(activity){
+        this.choices.$remove(activity)
+      },
+    },
   })
 </script>
 </html>
